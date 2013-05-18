@@ -38,7 +38,7 @@ public class DepthLimitedSearch implements SearchAlgorithm {
 				}
 			}
 		}
-		return null;
+		return new Solution(null, getNodeExpanded());
 	}
 
 	public int getNodeExpanded() {

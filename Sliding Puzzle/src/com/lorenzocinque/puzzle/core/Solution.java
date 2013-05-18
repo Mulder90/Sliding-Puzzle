@@ -8,8 +8,14 @@ public class Solution {
 	private int nodeExplored;
 
 	public Solution(Node n, int nodeExplored) {
-		this.solutionPath = n.getPathFromRoot();
+		this.solutionPath = initSolution(n);
 		this.nodeExplored = nodeExplored;
+	}
+
+	private LinkedList<Node> initSolution(Node n) {
+		if (n != null)
+			return n.getPathFromRoot();
+		return null;
 	}
 
 	public LinkedList<Node> getSolutionPath() {
@@ -23,12 +29,16 @@ public class Solution {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		if (solutionPath.size() != 0) {
+		if (solutionPath != null) {
 			builder.append("Solution:\n");
 			for (Node node : solutionPath) {
 				builder.append(node + "\n");
 			}
-			builder.append("Resolved in " + (solutionPath.size() - 1) + " moves\n");
+			builder.append("Resolved in " + (solutionPath.size() - 1)
+					+ " moves\n");
+			builder.append("Number of nodes expanded: " + nodeExplored);
+		} else {
+			builder.append("No solution found\n");
 			builder.append("Number of nodes expanded: " + nodeExplored);
 		}
 		return builder.toString();

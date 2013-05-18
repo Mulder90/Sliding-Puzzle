@@ -39,7 +39,7 @@ public abstract class GraphSearch implements SearchAlgorithm {
 					fringe.add(n);
 			}
 		}
-		return null;
+		return new Solution(null, getNodeExpanded());
 	}
 
 }

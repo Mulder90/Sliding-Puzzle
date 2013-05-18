@@ -41,7 +41,7 @@ public class Main {
 		Solution solution = solver.solve();
 		long searchTime = System.nanoTime() - startTime;
 		System.out.println(solution);
-		System.out.println("Solution found with " + solver.toString()
+		System.out.println("Search finished with " + solver.toString()
 				+ " in approximately: " + (searchTime / 1000000000.0) + "s");
 		sc.close();
 	}
