@@ -41,7 +41,6 @@ public class DepthLimitedSearch implements SearchAlgorithm {
 		return null;
 	}
 
-	@Override
 	public int getNodeExpanded() {
 		return nodeExpanded;
 	}

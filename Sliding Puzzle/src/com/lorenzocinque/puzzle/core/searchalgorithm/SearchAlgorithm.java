@@ -6,7 +6,5 @@ import com.lorenzocinque.puzzle.core.Solution;
 public interface SearchAlgorithm {
 	
 	public Solution search(Puzzle puzzle);
-	
-	public int getNodeExpanded();
 
 }

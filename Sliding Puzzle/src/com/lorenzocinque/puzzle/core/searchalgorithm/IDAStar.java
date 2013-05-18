@@ -12,11 +12,6 @@ public class IDAStar implements SearchAlgorithm, InformedSearch {
 	}
 
 	@Override
-	public int getNodeExpanded() {
-		return 0;
-	}
-
-	@Override
 	public void setHeuristic(Heuristic heuristic) {
 		// TODO Auto-generated method stub
 
