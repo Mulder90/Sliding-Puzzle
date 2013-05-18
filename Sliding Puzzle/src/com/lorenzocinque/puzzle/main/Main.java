@@ -3,8 +3,6 @@ package com.lorenzocinque.puzzle.main;
 import java.awt.EventQueue;
 import java.util.Scanner;
 
-import javax.swing.JFrame;
-
 import com.lorenzocinque.puzzle.core.Puzzle;
 import com.lorenzocinque.puzzle.core.PuzzleGoalTest;
 import com.lorenzocinque.puzzle.core.PuzzleState;
@@ -51,15 +49,15 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				start();
+				try {
+					PuzzleGui window = new PuzzleGui();
+					window.getFrameSlidingPuzzle().setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 
-	}
-
-	protected static void start() {
-		JFrame mainGui = new PuzzleGui("Sliding Puzzle");
-		mainGui.setVisible(true);
 	}
 
 }
