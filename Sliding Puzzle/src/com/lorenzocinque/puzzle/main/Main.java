@@ -5,10 +5,10 @@ import java.util.Scanner;
 
 import javax.swing.JFrame;
 
-import com.lorenzocinque.puzzle.core.Node;
 import com.lorenzocinque.puzzle.core.Puzzle;
 import com.lorenzocinque.puzzle.core.PuzzleGoalTest;
 import com.lorenzocinque.puzzle.core.PuzzleState;
+import com.lorenzocinque.puzzle.core.Solution;
 import com.lorenzocinque.puzzle.core.Solver;
 import com.lorenzocinque.puzzle.core.Utils;
 import com.lorenzocinque.puzzle.core.heuristic.ManhattanHeuristic;
@@ -38,11 +38,9 @@ public class Main {
 		System.out.println("Initial state:\n" + puzzle.getInitialState());
 		Solver solver = new Solver(puzzle, new AStar(new ManhattanHeuristic(N)));
 		long startTime = System.nanoTime();
-		Node n = solver.solve();
+		Solution solution = solver.solve();
 		long searchTime = System.nanoTime() - startTime;
-		Utils.printSolution(n);
-		System.out.println("Number of nodes expanded: "
-				+ solver.getAlgorithm().getNodeExpanded());
+		System.out.println(solution);
 		System.out.println("Solution found with " + solver.toString()
 				+ " in approximately: " + (searchTime / 1000000000.0) + "s");
 		sc.close();

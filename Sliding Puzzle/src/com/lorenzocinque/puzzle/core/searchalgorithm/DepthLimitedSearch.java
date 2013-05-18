@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import com.lorenzocinque.puzzle.core.Node;
 import com.lorenzocinque.puzzle.core.Puzzle;
+import com.lorenzocinque.puzzle.core.Solution;
 
 public class DepthLimitedSearch implements SearchAlgorithm {
 
@@ -16,19 +17,19 @@ public class DepthLimitedSearch implements SearchAlgorithm {
 	}
 
 	@Override
-	public Node search(Puzzle puzzle) {
+	public Solution search(Puzzle puzzle) {
 		return depthSearch(puzzle, bound);
 	}
 
-	private Node depthSearch(Puzzle puzzle, int bound) {
+	private Solution depthSearch(Puzzle puzzle, int bound) {
 		return recursiveDepthLimitedSearch(new Node(puzzle.getInitialState(),
 				null, null), puzzle, bound);
 	}
 
-	private Node recursiveDepthLimitedSearch(Node node, Puzzle puzzle, int bound) {
+	private Solution recursiveDepthLimitedSearch(Node node, Puzzle puzzle, int bound) {
 		if (bound >= 0) {
 			if (puzzle.getGoalTest().isGoalState(node.getState()))
-				return node;
+				return new Solution(node, getNodeExpanded());
 			else {
 				LinkedList<Node> expansion = node.expandNode();
 				nodeExpanded++;

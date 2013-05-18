@@ -6,6 +6,7 @@ import java.util.Queue;
 
 import com.lorenzocinque.puzzle.core.Node;
 import com.lorenzocinque.puzzle.core.Puzzle;
+import com.lorenzocinque.puzzle.core.Solution;
 
 public abstract class GraphSearch implements SearchAlgorithm {
 
@@ -24,12 +25,12 @@ public abstract class GraphSearch implements SearchAlgorithm {
 	}
 
 	@Override
-	public Node search(Puzzle puzzle) {
+	public Solution search(Puzzle puzzle) {
 		fringe.add(new Node(puzzle.getInitialState(), null, null));
 		while (!fringe.isEmpty()) {
 			Node selectedNode = fringe.poll();
 			if (puzzle.getGoalTest().isGoalState(selectedNode.getState())) {
-				return selectedNode;
+				return new Solution(selectedNode, getNodeExpanded());
 			}
 			closedList.add(selectedNode);
 			LinkedList<Node> expansion = selectedNode.expandNode();

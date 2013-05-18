@@ -1,13 +1,13 @@
 package com.lorenzocinque.puzzle.core.searchalgorithm;
 
-import com.lorenzocinque.puzzle.core.Node;
 import com.lorenzocinque.puzzle.core.Puzzle;
+import com.lorenzocinque.puzzle.core.Solution;
 import com.lorenzocinque.puzzle.core.heuristic.Heuristic;
 
 public class IDAStar implements SearchAlgorithm, InformedSearch {
 
 	@Override
-	public Node search(Puzzle puzzle) {
+	public Solution search(Puzzle puzzle) {
 		return null;
 	}
 

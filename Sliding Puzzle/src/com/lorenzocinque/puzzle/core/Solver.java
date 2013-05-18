@@ -20,11 +20,9 @@ public class Solver {
 		this.algorithm = algorithm;
 	}
 
-	public Node solve() {
+	public Solution solve() {
 		return algorithm.search(puzzle);
 	}
-	
-	
 	
 	@Override
 	public String toString() {
