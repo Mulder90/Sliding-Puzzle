@@ -25,8 +25,11 @@ import com.lorenzocinque.puzzle.core.PuzzleState;
 import com.lorenzocinque.puzzle.core.Solution;
 import com.lorenzocinque.puzzle.core.Solver;
 import com.lorenzocinque.puzzle.core.Utils;
+import com.lorenzocinque.puzzle.core.heuristic.Heuristic;
 import com.lorenzocinque.puzzle.core.heuristic.ManhattanHeuristic;
+import com.lorenzocinque.puzzle.core.heuristic.MisplacedHeuristic;
 import com.lorenzocinque.puzzle.core.searchalgorithm.AStar;
+import com.lorenzocinque.puzzle.core.searchalgorithm.SearchAlgorithm;
 
 public class PuzzleGui {
 
@@ -34,14 +37,22 @@ public class PuzzleGui {
 	private JTextArea textArea;
 	private JTextField seedTextField;
 	private JTextField scramblesTextField;
-	private int N = 3;
+	private int N;
+	private SearchAlgorithm algorithm;
+	private Heuristic heuristic;
 	private Puzzle puzzle;
 
 	/**
 	 * Create the application.
 	 */
 	public PuzzleGui() {
+		initializaDefaultValue();
 		initialize();
+	}
+
+	private void initializaDefaultValue() {
+		N = 3;
+		heuristic = new ManhattanHeuristic(N);
 	}
 
 	public JFrame getFrameSlidingPuzzle() {
@@ -121,6 +132,15 @@ public class PuzzleGui {
 		heuristicComboBox.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "Manhattan", "Misplaced" }));
 
+		heuristicComboBox.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				heuristic = (heuristicComboBox.getSelectedIndex() == 0) ? new ManhattanHeuristic(
+						N) : new MisplacedHeuristic(N);
+			}
+		});
+
 		JButton createButton = new JButton("Create");
 		creationPanel.add(createButton);
 
@@ -144,8 +164,8 @@ public class PuzzleGui {
 		solveButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Solver solver = new Solver(puzzle, new AStar(
-						new ManhattanHeuristic(N)));
+				algorithm = new AStar(heuristic);
+				Solver solver = new Solver(puzzle, algorithm);
 				long startTime = System.nanoTime();
 				Solution solution = solver.solve();
 				long searchTime = System.nanoTime() - startTime;
