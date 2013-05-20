@@ -45,7 +45,6 @@ public class PuzzleGui {
 	private Heuristic heuristic;
 	private Puzzle puzzle;
 
-	
 	public PuzzleGui() {
 		initializaDefaultValue();
 		initialize();
@@ -118,7 +117,7 @@ public class PuzzleGui {
 		creationPanel.add(seedLabel);
 		seedTextField = new JTextField();
 		creationPanel.add(seedTextField);
-		seedTextField.setText("1200");
+		seedTextField.setText("1278");
 		seedTextField.setColumns(10);
 
 		JLabel scramblesLabel = new JLabel("Scrambles:");
@@ -195,7 +194,7 @@ public class PuzzleGui {
 					protected void done() {
 						try {
 							solveButton.setText("Solve");
-							//solveButton.setEnabled(true);
+							// solveButton.setEnabled(true);
 							textArea.append(get().toString() + "\n");
 						} catch (InterruptedException e) {
 							e.printStackTrace();
