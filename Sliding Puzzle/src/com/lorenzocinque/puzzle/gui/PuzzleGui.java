@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.ExecutionException;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 
 import com.lorenzocinque.puzzle.core.Puzzle;
 import com.lorenzocinque.puzzle.core.PuzzleGoalTest;
@@ -101,12 +103,18 @@ public class PuzzleGui {
 		dimensionComboBox.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "8 Puzzle", "15 Puzzle" }));
 
-		dimensionComboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int i = dimensionComboBox.getSelectedIndex();
-				N = (i == 0) ? 3 : 4;
-			}
-		});
+		final JComboBox<String> algorithmComboBox = new JComboBox<String>();
+		algorithmPanel.add(algorithmComboBox);
+		final DefaultComboBoxModel<String> algorithmModelEight = new DefaultComboBoxModel<String>(
+				new String[] { "A*", "IDA*", "Breadth First Search" });
+		final DefaultComboBoxModel<String> algorithmModelFifteen = new DefaultComboBoxModel<String>(
+				new String[] { "A*", "IDA*" });
+		algorithmComboBox.setModel(algorithmModelEight);
+
+		final JComboBox<String> heuristicComboBox = new JComboBox<String>();
+		algorithmPanel.add(heuristicComboBox);
+		heuristicComboBox.setModel(new DefaultComboBoxModel<String>(
+				new String[] { "Manhattan", "Misplaced" }));
 
 		JLabel seedLabel = new JLabel("Seed:");
 		creationPanel.add(seedLabel);
@@ -122,15 +130,23 @@ public class PuzzleGui {
 		scramblesTextField.setText("60");
 		scramblesTextField.setColumns(3);
 
-		final JComboBox<String> algorithmComboBox = new JComboBox<String>();
-		algorithmPanel.add(algorithmComboBox);
-		algorithmComboBox.setModel(new DefaultComboBoxModel<String>(
-				new String[] { "A*", "IDA*", "Breadth First Search" }));
+		final JButton createButton = new JButton("Create");
+		creationPanel.add(createButton);
 
-		final JComboBox<String> heuristicComboBox = new JComboBox<String>();
-		algorithmPanel.add(heuristicComboBox);
-		heuristicComboBox.setModel(new DefaultComboBoxModel<String>(
-				new String[] { "Manhattan", "Misplaced" }));
+		final JButton solveButton = new JButton("Solve");
+		solveButton.setEnabled(false);
+		algorithmPanel.add(solveButton);
+
+		dimensionComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int i = dimensionComboBox.getSelectedIndex();
+				N = (i == 0) ? 3 : 4;
+				if (N == 4)
+					algorithmComboBox.setModel(algorithmModelFifteen);
+				else
+					algorithmComboBox.setModel(algorithmModelEight);
+			}
+		});
 
 		heuristicComboBox.addActionListener(new ActionListener() {
 
@@ -140,9 +156,6 @@ public class PuzzleGui {
 						N) : new MisplacedHeuristic(N);
 			}
 		});
-
-		JButton createButton = new JButton("Create");
-		creationPanel.add(createButton);
 
 		createButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -155,24 +168,45 @@ public class PuzzleGui {
 				Utils.makeRandomInitialState(puzzle, seed, scrambles);
 				textArea.append("\nInitial state:\n" + puzzle.getInitialState()
 						+ "\n");
+				solveButton.setEnabled(true);
 			}
 		});
-
-		JButton solveButton = new JButton("Solve");
-		algorithmPanel.add(solveButton);
 
 		solveButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				algorithm = new AStar(heuristic);
-				Solver solver = new Solver(puzzle, algorithm);
-				long startTime = System.nanoTime();
-				Solution solution = solver.solve();
-				long searchTime = System.nanoTime() - startTime;
-				textArea.append(solution.toString() + "\n");
-				textArea.append("Search finished with " + solver.toString()
-						+ " in approximately: " + (searchTime / 1000000000.0)
-						+ "s");
+
+				SwingWorker<Solution, Void> worker = new SwingWorker<Solution, Void>() {
+
+					Solver solver;
+					long searchTime;
+
+					@Override
+					protected Solution doInBackground() throws Exception {
+						algorithm = new AStar(heuristic);
+						solver = new Solver(puzzle, algorithm);
+						long startTime = System.nanoTime();
+						Solution solution = solver.solve();
+						searchTime = System.nanoTime() - startTime;
+						return solution;
+					}
+
+					@Override
+					protected void done() {
+						try {
+							textArea.append(get().toString() + "\n");
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						} catch (ExecutionException e) {
+							e.printStackTrace();
+						}
+						textArea.append("Search finished with "
+								+ solver.toString() + " in approximately: "
+								+ (searchTime / 1000000000.0) + "s");
+					}
+				};
+
+				worker.execute();
 			}
 		});
 	}
