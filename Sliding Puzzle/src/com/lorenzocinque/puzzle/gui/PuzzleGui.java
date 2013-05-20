@@ -2,6 +2,7 @@ package com.lorenzocinque.puzzle.gui;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,9 +45,7 @@ public class PuzzleGui {
 	private Heuristic heuristic;
 	private Puzzle puzzle;
 
-	/**
-	 * Create the application.
-	 */
+	
 	public PuzzleGui() {
 		initializaDefaultValue();
 		initialize();
@@ -66,9 +65,6 @@ public class PuzzleGui {
 		frameSlidingPuzzle.setResizable(false);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		setFrameSlidingPuzzle(new JFrame());
 		getFrameSlidingPuzzle().setTitle("Sliding Puzzle");
@@ -84,6 +80,8 @@ public class PuzzleGui {
 
 		textArea = new JTextArea();
 		textArea.setEditable(false);
+		Font font = new Font("Verdana", Font.BOLD, 11);
+		textArea.setFont(font);
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		getFrameSlidingPuzzle().getContentPane().add(scrollPane);
 		panel.setLayout(new GridLayout(2, 1, 0, 0));
@@ -183,6 +181,8 @@ public class PuzzleGui {
 
 					@Override
 					protected Solution doInBackground() throws Exception {
+						solveButton.setText("Solving...");
+						solveButton.setEnabled(false);
 						algorithm = new AStar(heuristic);
 						solver = new Solver(puzzle, algorithm);
 						long startTime = System.nanoTime();
@@ -194,6 +194,8 @@ public class PuzzleGui {
 					@Override
 					protected void done() {
 						try {
+							solveButton.setText("Solve");
+							//solveButton.setEnabled(true);
 							textArea.append(get().toString() + "\n");
 						} catch (InterruptedException e) {
 							e.printStackTrace();
