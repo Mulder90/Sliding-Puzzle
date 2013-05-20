@@ -1,31 +1,24 @@
 package com.lorenzocinque.puzzle.main;
 
 import java.awt.EventQueue;
-import java.util.Scanner;
 
-import com.lorenzocinque.puzzle.core.Puzzle;
-import com.lorenzocinque.puzzle.core.PuzzleGoalTest;
-import com.lorenzocinque.puzzle.core.PuzzleState;
-import com.lorenzocinque.puzzle.core.Solution;
-import com.lorenzocinque.puzzle.core.Solver;
-import com.lorenzocinque.puzzle.core.Utils;
-import com.lorenzocinque.puzzle.core.heuristic.ManhattanHeuristic;
-import com.lorenzocinque.puzzle.core.searchalgorithm.AStar;
 import com.lorenzocinque.puzzle.gui.PuzzleGui;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+		/*Scanner sc = new Scanner(System.in);
 		System.out.println("Console or GUI?:\n1)Console\n2)GUI");
 		int type = sc.nextInt();
 		if (type == 1)
 			startConsole();
 		else
 			startGUI();
-		sc.close();
+		sc.close();*/
+		startGUI();
 	}
 
+	/*
 	private static void startConsole() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("1)8-Puzzle\n2)15-Puzzle");
@@ -43,6 +36,7 @@ public class Main {
 				+ " in approximately: " + (searchTime / 1000000000.0) + "s");
 		sc.close();
 	}
+	*/
 
 	private static void startGUI() {
 

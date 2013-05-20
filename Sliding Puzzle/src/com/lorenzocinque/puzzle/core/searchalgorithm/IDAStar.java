@@ -5,6 +5,10 @@ import com.lorenzocinque.puzzle.core.Solution;
 import com.lorenzocinque.puzzle.core.heuristic.Heuristic;
 
 public class IDAStar implements SearchAlgorithm, InformedSearch {
+	
+	public IDAStar(Heuristic heuristic) {
+		setHeuristic(heuristic);
+	}
 
 	@Override
 	public Solution search(Puzzle puzzle) {

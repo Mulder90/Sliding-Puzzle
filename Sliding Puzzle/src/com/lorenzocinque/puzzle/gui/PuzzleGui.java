@@ -32,27 +32,41 @@ import com.lorenzocinque.puzzle.core.heuristic.Heuristic;
 import com.lorenzocinque.puzzle.core.heuristic.ManhattanHeuristic;
 import com.lorenzocinque.puzzle.core.heuristic.MisplacedHeuristic;
 import com.lorenzocinque.puzzle.core.searchalgorithm.AStar;
+import com.lorenzocinque.puzzle.core.searchalgorithm.BreadthFirstSearch;
+import com.lorenzocinque.puzzle.core.searchalgorithm.IDAStar;
 import com.lorenzocinque.puzzle.core.searchalgorithm.SearchAlgorithm;
 
 public class PuzzleGui {
 
 	private JFrame frameSlidingPuzzle;
+	private JPanel panel;
+	private JPanel creationPanel;
+	private JPanel algorithmPanel;
 	private JTextArea textArea;
 	private JTextField seedTextField;
 	private JTextField scramblesTextField;
+	private JButton createButton;
+	private JButton solveButton;
+	private JComboBox<String> dimensionComboBox;
+	private JComboBox<String> algorithmComboBox;
+	private JComboBox<String> heuristicComboBox;
+	private DefaultComboBoxModel<String> eightAlgorithm;
+	private DefaultComboBoxModel<String> fifteenAlgorithm;
+
 	private int N;
 	private SearchAlgorithm algorithm;
 	private Heuristic heuristic;
 	private Puzzle puzzle;
 
 	public PuzzleGui() {
-		initializaDefaultValue();
+		initializeDefaultValue();
 		initialize();
 	}
 
-	private void initializaDefaultValue() {
+	private void initializeDefaultValue() {
 		N = 3;
 		heuristic = new ManhattanHeuristic(N);
+		algorithm = new AStar(heuristic);
 	}
 
 	public JFrame getFrameSlidingPuzzle() {
@@ -73,7 +87,7 @@ public class PuzzleGui {
 				new BoxLayout(getFrameSlidingPuzzle().getContentPane(),
 						BoxLayout.Y_AXIS));
 
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setMaximumSize(new Dimension(32767, 50));
 		getFrameSlidingPuzzle().getContentPane().add(panel);
 
@@ -85,30 +99,30 @@ public class PuzzleGui {
 		getFrameSlidingPuzzle().getContentPane().add(scrollPane);
 		panel.setLayout(new GridLayout(2, 1, 0, 0));
 
-		JPanel creationPanel = new JPanel();
+		creationPanel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) creationPanel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panel.add(creationPanel);
 
-		JPanel algorithmPanel = new JPanel();
+		algorithmPanel = new JPanel();
 		flowLayout = (FlowLayout) algorithmPanel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panel.add(algorithmPanel);
 
-		final JComboBox<String> dimensionComboBox = new JComboBox<String>();
+		dimensionComboBox = new JComboBox<String>();
 		creationPanel.add(dimensionComboBox);
 		dimensionComboBox.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "8 Puzzle", "15 Puzzle" }));
 
-		final JComboBox<String> algorithmComboBox = new JComboBox<String>();
+		algorithmComboBox = new JComboBox<String>();
 		algorithmPanel.add(algorithmComboBox);
-		final DefaultComboBoxModel<String> algorithmModelEight = new DefaultComboBoxModel<String>(
-				new String[] { "A*", "IDA*", "Breadth First Search" });
-		final DefaultComboBoxModel<String> algorithmModelFifteen = new DefaultComboBoxModel<String>(
-				new String[] { "A*", "IDA*" });
-		algorithmComboBox.setModel(algorithmModelEight);
+		eightAlgorithm = new DefaultComboBoxModel<String>(new String[] { "A*",
+				"IDA*", "Breadth First Search" });
+		fifteenAlgorithm = new DefaultComboBoxModel<String>(new String[] {
+				"A*", "IDA*" });
+		algorithmComboBox.setModel(eightAlgorithm);
 
-		final JComboBox<String> heuristicComboBox = new JComboBox<String>();
+		heuristicComboBox = new JComboBox<String>();
 		algorithmPanel.add(heuristicComboBox);
 		heuristicComboBox.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "Manhattan", "Misplaced" }));
@@ -116,45 +130,57 @@ public class PuzzleGui {
 		JLabel seedLabel = new JLabel("Seed:");
 		creationPanel.add(seedLabel);
 		seedTextField = new JTextField();
-		creationPanel.add(seedTextField);
 		seedTextField.setText("1278");
 		seedTextField.setColumns(10);
+		creationPanel.add(seedTextField);
 
 		JLabel scramblesLabel = new JLabel("Scrambles:");
 		creationPanel.add(scramblesLabel);
 		scramblesTextField = new JTextField();
-		creationPanel.add(scramblesTextField);
 		scramblesTextField.setText("60");
-		scramblesTextField.setColumns(3);
+		scramblesTextField.setColumns(4);
+		creationPanel.add(scramblesTextField);
 
-		final JButton createButton = new JButton("Create");
+		createButton = new JButton("Create");
 		creationPanel.add(createButton);
 
-		final JButton solveButton = new JButton("Solve");
+		solveButton = new JButton("Solve");
 		solveButton.setEnabled(false);
 		algorithmPanel.add(solveButton);
 
 		dimensionComboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int i = dimensionComboBox.getSelectedIndex();
-				N = (i == 0) ? 3 : 4;
-				if (N == 4)
-					algorithmComboBox.setModel(algorithmModelFifteen);
-				else
-					algorithmComboBox.setModel(algorithmModelEight);
-			}
-		});
-
-		heuristicComboBox.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				heuristic = (heuristicComboBox.getSelectedIndex() == 0) ? new ManhattanHeuristic(
-						N) : new MisplacedHeuristic(N);
+				int i = dimensionComboBox.getSelectedIndex();
+				N = (i == 0) ? 3 : 4;
+				if (N == 3) {
+					algorithmComboBox.setModel(eightAlgorithm);
+					if (algorithmComboBox.getSelectedItem().toString()
+							.equals("Breadth First Search"))
+						heuristicComboBox.setEnabled(false);
+				} else {
+					heuristicComboBox.setEnabled(true);
+					algorithmComboBox.setModel(fifteenAlgorithm);
+				}
+			}
+		});
+
+		algorithmComboBox.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String alg = algorithmComboBox.getSelectedItem().toString();
+				if (alg.equals("Breadth First Search")) {
+					heuristicComboBox.setEnabled(false);
+				} else {
+					heuristicComboBox.setEnabled(true);
+				}
 			}
 		});
 
 		createButton.addMouseListener(new MouseAdapter() {
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				textArea.setText("");
@@ -170,6 +196,7 @@ public class PuzzleGui {
 		});
 
 		solveButton.addMouseListener(new MouseAdapter() {
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
@@ -182,7 +209,7 @@ public class PuzzleGui {
 					protected Solution doInBackground() throws Exception {
 						solveButton.setText("Solving...");
 						solveButton.setEnabled(false);
-						algorithm = new AStar(heuristic);
+						setAlgorithm();
 						solver = new Solver(puzzle, algorithm);
 						long startTime = System.nanoTime();
 						Solution solution = solver.solve();
@@ -190,11 +217,33 @@ public class PuzzleGui {
 						return solution;
 					}
 
+					private void setAlgorithm() {
+						String heu = heuristicComboBox.getSelectedItem()
+								.toString();
+						if (heu.equals("Manhattan")) {
+							heuristic = new ManhattanHeuristic(N);
+						} else if (heu.equals("Misplaced")) {
+							heuristic = new MisplacedHeuristic(N);
+						}
+						String alg = algorithmComboBox.getSelectedItem()
+								.toString();
+						if (alg.equals("Breadth First Search")) {
+							heuristicComboBox.setEnabled(false);
+							algorithm = new BreadthFirstSearch();
+						} else {
+							heuristicComboBox.setEnabled(true);
+							if (alg.equals("A*")) {
+								algorithm = new AStar(heuristic);
+							} else if (alg.equals("IDA*")) {
+								algorithm = new IDAStar(heuristic);
+							}
+						}
+					}
+
 					@Override
 					protected void done() {
 						try {
 							solveButton.setText("Solve");
-							// solveButton.setEnabled(true);
 							textArea.append(get().toString() + "\n");
 						} catch (InterruptedException e) {
 							e.printStackTrace();
@@ -211,5 +260,4 @@ public class PuzzleGui {
 			}
 		});
 	}
-
 }

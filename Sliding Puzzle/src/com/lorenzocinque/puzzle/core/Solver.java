@@ -6,17 +6,17 @@ public class Solver {
 
 	private Puzzle puzzle;
 	private SearchAlgorithm algorithm;
+	
+	public Solver(Puzzle puzzle, SearchAlgorithm algorithm) {
+		this.puzzle = puzzle;
+		this.algorithm = algorithm;
+	}
 
 	public SearchAlgorithm getAlgorithm() {
 		return algorithm;
 	}
 
 	public void setAlgorithm(SearchAlgorithm algorithm) {
-		this.algorithm = algorithm;
-	}
-
-	public Solver(Puzzle puzzle, SearchAlgorithm algorithm) {
-		this.puzzle = puzzle;
 		this.algorithm = algorithm;
 	}
 
