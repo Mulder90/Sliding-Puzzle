@@ -18,8 +18,9 @@ public class ManhattanHeuristic implements Heuristic {
 		ArrayList<Integer> board = n.getState().getBoard();
 		int[][] multiBoard = new int[N][N];
 		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++)
+			for (int j = 0; j < N; j++) {
 				multiBoard[i][j] = board.get(i * N + j);
+			}
 		}
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
