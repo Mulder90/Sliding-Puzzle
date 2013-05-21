@@ -34,7 +34,7 @@ public class Solution {
 			for (Node node : solutionPath) {
 				builder.append(node + "\n");
 			}
-			builder.append("Resolved in " + (solutionPath.size() - 1)
+			builder.append("Resolved in " + (solutionPath.size())
 					+ " moves\n");
 			builder.append("Number of nodes expanded: " + nodeExplored);
 		} else {

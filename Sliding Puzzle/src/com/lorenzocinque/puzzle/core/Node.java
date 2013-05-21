@@ -71,7 +71,7 @@ public class Node {
 	public LinkedList<Node> getPathFromRoot() {
 		LinkedList<Node> path = new LinkedList<Node>();
 		Node n = this;
-		while (n != null) {
+		while (n.getParent() != null) {
 			path.addFirst(n);
 			n = n.getParent();
 		}

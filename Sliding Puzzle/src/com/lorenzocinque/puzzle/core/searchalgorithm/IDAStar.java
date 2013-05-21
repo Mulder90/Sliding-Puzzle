@@ -12,7 +12,7 @@ public class IDAStar implements SearchAlgorithm, InformedSearch {
 
 	@Override
 	public Solution search(Puzzle puzzle) {
-		return null;
+		return new Solution(null, 0);
 	}
 
 	@Override
