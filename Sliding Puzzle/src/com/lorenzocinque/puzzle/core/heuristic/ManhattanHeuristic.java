@@ -15,23 +15,20 @@ public class ManhattanHeuristic implements Heuristic {
 	@Override
 	public int h(Node n) {
 		int distance = 0;
-		int size = n.getState().getBoard().size();
 		ArrayList<Integer> board = n.getState().getBoard();
-		for (int i = 0; i < size; i++) {
-			int valueFound = board.get(i);
-			if (valueFound != (i + 1) && valueFound != 0) {
-				int k = (i + 1) % N;
-				if (k == 0)
-					k = N;
-				int columnFound = k;
-				int rowFound = (i + 1) / N;
-				k = valueFound % N;
-				if (k == 0)
-					k = N;
-				int columnRight = k;
-				int rowRight = valueFound / N;
-				distance += Math.abs(columnRight - columnFound)
-						+ Math.abs(rowRight - rowFound);
+		int[][] multiBoard = new int[N][N];
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++)
+				multiBoard[i][j] = board.get(i * N + j);
+		}
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				int value = multiBoard[i][j];
+				if (multiBoard[i][j] != 0) {
+					int targetX = (value - 1) / N;
+					int targetY = (value - 1) % N;
+					distance += Math.abs(i - targetX) + Math.abs(j - targetY);
+				}
 			}
 		}
 		return distance;
