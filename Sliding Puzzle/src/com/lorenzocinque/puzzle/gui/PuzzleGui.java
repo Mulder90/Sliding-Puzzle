@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -142,7 +143,9 @@ public class PuzzleGui {
 		creationPanel.add(scramblesTextField);
 
 		createButton = new JButton("Create");
+		JButton aboutButton = new JButton("About");
 		creationPanel.add(createButton);
+		creationPanel.add(aboutButton);
 
 		solveButton = new JButton("Solve");
 		solveButton.setEnabled(false);
@@ -193,6 +196,13 @@ public class PuzzleGui {
 						+ "\n");
 				solveButton.setEnabled(true);
 			}
+		});
+
+		aboutButton.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				JOptionPane.showMessageDialog(getFrameSlidingPuzzle(),
+						"Coded by Lorenzo Cinque\nmail: lore.cinque@gmail.com");
+			};
 		});
 
 		solveButton.addMouseListener(new MouseAdapter() {
