@@ -144,6 +144,8 @@ public class PuzzleGui {
 		creationPanel.add(scramblesTextField);
 
 		createButton = new JButton("Create");
+		final JLabel contact = new JLabel();
+		contact.setText("<html>mail: <a href=\"\">lore.cinque@gmail.com</a></html>");
 		JButton aboutButton = new JButton("About");
 		creationPanel.add(createButton);
 		creationPanel.add(aboutButton);
@@ -205,7 +207,7 @@ public class PuzzleGui {
 		aboutButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				JOptionPane.showMessageDialog(getFrameSlidingPuzzle(),
-						"Coded by Lorenzo Cinque\nmail: lore.cinque@gmail.com");
+						"Coded by Lorenzo Cinque\n" + contact.getText());
 			};
 		});
 
