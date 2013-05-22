@@ -26,16 +26,22 @@ public class DepthLimitedSearch implements SearchAlgorithm {
 				null, null), puzzle, bound);
 	}
 
-	private Solution recursiveDepthLimitedSearch(Node node, Puzzle puzzle, int bound) {
-		if (bound >= 0) {
-			if (puzzle.getGoalTest().isGoalState(node.getState()))
-				return new Solution(node, getNodeExpanded());
-			else {
-				LinkedList<Node> expansion = node.expandNode();
-				nodeExpanded++;
-				for (Node child : expansion) {
-					recursiveDepthLimitedSearch(child, puzzle, bound - 1);
-				}
+	private Solution recursiveDepthLimitedSearch(Node node, Puzzle puzzle,
+			int bound) {
+		if (puzzle.getGoalTest().isGoalState(node.getState())) {
+			return new Solution(node, getNodeExpanded());
+		} else if (bound == 0) {
+			return new Solution(null, getNodeExpanded());
+		} else {
+			LinkedList<Node> expansion = node.expandNode();
+			nodeExpanded++;
+			for (Node child : expansion) {
+				Solution result = recursiveDepthLimitedSearch(child, puzzle,
+						bound - 1);
+				if (result.getN() != null
+						&& puzzle.getGoalTest().isGoalState(
+								result.getN().getState()))
+					return result;
 			}
 		}
 		return new Solution(null, getNodeExpanded());
