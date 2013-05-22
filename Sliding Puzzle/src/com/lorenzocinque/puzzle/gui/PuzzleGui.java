@@ -35,6 +35,7 @@ import com.lorenzocinque.puzzle.core.heuristic.MisplacedHeuristic;
 import com.lorenzocinque.puzzle.core.searchalgorithm.AStar;
 import com.lorenzocinque.puzzle.core.searchalgorithm.BreadthFirstSearch;
 import com.lorenzocinque.puzzle.core.searchalgorithm.IDAStar;
+import com.lorenzocinque.puzzle.core.searchalgorithm.IterativeDLS;
 import com.lorenzocinque.puzzle.core.searchalgorithm.SearchAlgorithm;
 
 public class PuzzleGui {
@@ -118,7 +119,7 @@ public class PuzzleGui {
 		algorithmComboBox = new JComboBox<String>();
 		algorithmPanel.add(algorithmComboBox);
 		eightAlgorithm = new DefaultComboBoxModel<String>(new String[] { "A*",
-				"IDA*", "Breadth First Search" });
+				"IDA*", "Breadth First Search", "Iterative DLS" });
 		fifteenAlgorithm = new DefaultComboBoxModel<String>(new String[] {
 				"A*", "IDA*" });
 		algorithmComboBox.setModel(eightAlgorithm);
@@ -160,7 +161,9 @@ public class PuzzleGui {
 				if (N == 3) {
 					algorithmComboBox.setModel(eightAlgorithm);
 					if (algorithmComboBox.getSelectedItem().toString()
-							.equals("Breadth First Search"))
+							.equals("Breadth First Search")
+							|| algorithmComboBox.getSelectedItem().toString()
+									.equals("Iterative DLS"))
 						heuristicComboBox.setEnabled(false);
 				} else {
 					heuristicComboBox.setEnabled(true);
@@ -174,7 +177,8 @@ public class PuzzleGui {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String alg = algorithmComboBox.getSelectedItem().toString();
-				if (alg.equals("Breadth First Search")) {
+				if (alg.equals("Breadth First Search")
+						|| alg.equals("Iterative DLS")) {
 					heuristicComboBox.setEnabled(false);
 				} else {
 					heuristicComboBox.setEnabled(true);
@@ -240,6 +244,9 @@ public class PuzzleGui {
 						if (alg.equals("Breadth First Search")) {
 							heuristicComboBox.setEnabled(false);
 							algorithm = new BreadthFirstSearch();
+						} else if (alg.equals("Iterative DLS")) {
+							heuristicComboBox.setEnabled(false);
+							algorithm = new IterativeDLS();
 						} else {
 							heuristicComboBox.setEnabled(true);
 							if (alg.equals("A*")) {
