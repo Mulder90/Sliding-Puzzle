@@ -133,7 +133,7 @@ public class PuzzleGui {
 		creationPanel.add(seedLabel);
 		seedTextField = new JTextField();
 		seedTextField.setText("1278");
-		seedTextField.setColumns(10);
+		seedTextField.setColumns(6);
 		creationPanel.add(seedTextField);
 
 		JLabel scramblesLabel = new JLabel("Scrambles:");
