@@ -10,6 +10,7 @@ import com.lorenzocinque.puzzle.core.heuristic.Heuristic;
 public class AStar extends GraphSearch implements InformedSearch {
 
 	private Heuristic heuristic;
+	protected int w = 1;
 
 	public AStar(Heuristic heuristic) {
 		setHeuristic(heuristic);
@@ -30,8 +31,8 @@ public class AStar extends GraphSearch implements InformedSearch {
 
 			@Override
 			public int compare(Node o1, Node o2) {
-				o1.setH(heuristic.h(o1));
-				o2.setH(heuristic.h(o2));
+				o1.setH(heuristic.h(o1)*w);
+				o2.setH(heuristic.h(o2)*w);
 				o1.setF(o1.getG() + o1.getH());
 				o2.setF(o2.getG() + o2.getH());
 				if (o1.getF() < o2.getF())

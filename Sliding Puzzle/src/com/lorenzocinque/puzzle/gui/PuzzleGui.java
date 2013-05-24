@@ -37,6 +37,7 @@ import com.lorenzocinque.puzzle.core.searchalgorithm.BreadthFirstSearch;
 import com.lorenzocinque.puzzle.core.searchalgorithm.IDAStar;
 import com.lorenzocinque.puzzle.core.searchalgorithm.IterativeDLS;
 import com.lorenzocinque.puzzle.core.searchalgorithm.SearchAlgorithm;
+import com.lorenzocinque.puzzle.core.searchalgorithm.WeightedAStar;
 
 public class PuzzleGui {
 
@@ -47,6 +48,7 @@ public class PuzzleGui {
 	private JTextArea textArea;
 	private JTextField seedTextField;
 	private JTextField scramblesTextField;
+	private JTextField weightTextField;
 	private JButton createButton;
 	private JButton solveButton;
 	private JComboBox<String> dimensionComboBox;
@@ -118,10 +120,11 @@ public class PuzzleGui {
 
 		algorithmComboBox = new JComboBox<String>();
 		algorithmPanel.add(algorithmComboBox);
-		eightAlgorithm = new DefaultComboBoxModel<String>(new String[] { "A*",
-				"IDA*", "Breadth First Search", "Iterative DLS" });
+		eightAlgorithm = new DefaultComboBoxModel<String>(
+				new String[] { "A*", "Weighted A*", "IDA*",
+						"Breadth First Search", "Iterative DLS" });
 		fifteenAlgorithm = new DefaultComboBoxModel<String>(new String[] {
-				"A*", "IDA*" });
+				"A*", "Weighted A*", "IDA*" });
 		algorithmComboBox.setModel(eightAlgorithm);
 
 		heuristicComboBox = new JComboBox<String>();
@@ -150,6 +153,14 @@ public class PuzzleGui {
 		creationPanel.add(createButton);
 		creationPanel.add(aboutButton);
 
+		final JLabel weightLabel = new JLabel("Weight:");
+		algorithmPanel.add(weightLabel);
+		weightTextField = new JTextField();
+		weightTextField.setText("2");
+		weightTextField.setColumns(3);
+		algorithmPanel.add(weightTextField);
+		weightTextField.setEnabled(false);
+
 		solveButton = new JButton("Solve");
 		solveButton.setEnabled(false);
 		algorithmPanel.add(solveButton);
@@ -171,6 +182,12 @@ public class PuzzleGui {
 					heuristicComboBox.setEnabled(true);
 					algorithmComboBox.setModel(fifteenAlgorithm);
 				}
+				if (algorithmComboBox.getSelectedItem().toString()
+						.equals("Weighted A*")) {
+					weightTextField.setEnabled(true);
+				} else {
+					weightTextField.setEnabled(false);
+				}
 			}
 		});
 
@@ -182,7 +199,11 @@ public class PuzzleGui {
 				if (alg.equals("Breadth First Search")
 						|| alg.equals("Iterative DLS")) {
 					heuristicComboBox.setEnabled(false);
+					weightTextField.setEnabled(false);
+				} else if (alg.equals("Weighted A*")) {
+					weightTextField.setEnabled(true);
 				} else {
+					weightTextField.setEnabled(false);
 					heuristicComboBox.setEnabled(true);
 				}
 			}
@@ -255,6 +276,10 @@ public class PuzzleGui {
 								algorithm = new AStar(heuristic);
 							} else if (alg.equals("IDA*")) {
 								algorithm = new IDAStar(heuristic);
+							} else if (alg.equals("Weighted A*")) {
+								algorithm = new WeightedAStar(heuristic,
+										Integer.parseInt(weightTextField
+												.getText()));
 							}
 						}
 					}
