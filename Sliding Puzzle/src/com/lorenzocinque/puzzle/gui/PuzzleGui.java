@@ -228,7 +228,10 @@ public class PuzzleGui {
 		aboutButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				JOptionPane.showMessageDialog(getFrameSlidingPuzzle(),
-						"Coded by Lorenzo Cinque\n" + contact.getText());
+						"Coded by Lorenzo Cinque\n" +
+						"University of Florence\n" +
+						"AI class 2012/2013\n" + 
+						contact.getText());
 			};
 		});
 
