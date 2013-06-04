@@ -24,13 +24,14 @@ import javax.swing.plaf.LayerUI;
 
 /**
  * Collection of utility methods for various stuff with swing applications.
+ * 
  * @author Aurelien Ribon | http://www.aurelienribon.com
  */
 public class SwingUtils {
 	/**
 	 * Centers the dialog over the given parent component. Also, creates a
-	 * semi-transparent panel behind the dialog to mask the parent content.
-	 * The title of the dialog is displayed in a custom fashion over the dialog
+	 * semi-transparent panel behind the dialog to mask the parent content. The
+	 * title of the dialog is displayed in a custom fashion over the dialog
 	 * panel, and a rectangular shadow is placed behind the dialog.
 	 */
 	public static void createDialogBackPanel(JDialog dialog, Component parent) {
@@ -45,7 +46,8 @@ public class SwingUtils {
 	 * espace key is pressed, the dialog is disposed (either with a fadeout
 	 * animation, or directly).
 	 */
-	public static void addEscapeToCloseSupport(final JDialog dialog, final boolean fadeOnClose) {
+	public static void addEscapeToCloseSupport(final JDialog dialog,
+			final boolean fadeOnClose) {
 		LayerUI<Container> layerUI = new LayerUI<Container>() {
 			/**
 			 * 
@@ -66,12 +68,17 @@ public class SwingUtils {
 			}
 
 			@Override
-			public void eventDispatched(AWTEvent e, JLayer<? extends Container> l) {
-				if (e instanceof KeyEvent && ((KeyEvent) e).getKeyCode() == KeyEvent.VK_ESCAPE) {
-					if (closing) return;
+			public void eventDispatched(AWTEvent e,
+					JLayer<? extends Container> l) {
+				if (e instanceof KeyEvent
+						&& ((KeyEvent) e).getKeyCode() == KeyEvent.VK_ESCAPE) {
+					if (closing)
+						return;
 					closing = true;
-					if (fadeOnClose) fadeOut(dialog);
-					else dialog.dispose();
+					if (fadeOnClose)
+						fadeOut(dialog);
+					else
+						dialog.dispose();
 				}
 			}
 		};
@@ -88,10 +95,13 @@ public class SwingUtils {
 		timer.setRepeats(true);
 		timer.addActionListener(new ActionListener() {
 			private float opacity = 0;
-			@Override public void actionPerformed(ActionEvent e) {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				opacity += 0.15f;
 				dialog.setOpacity(Math.min(opacity, 1));
-				if (opacity >= 1) timer.stop();
+				if (opacity >= 1)
+					timer.stop();
 			}
 		});
 
@@ -108,7 +118,9 @@ public class SwingUtils {
 		timer.setRepeats(true);
 		timer.addActionListener(new ActionListener() {
 			private float opacity = 1;
-			@Override public void actionPerformed(ActionEvent e) {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
 				opacity -= 0.15f;
 				dialog.setOpacity(Math.max(opacity, 0));
 				if (opacity <= 0) {
@@ -132,7 +144,8 @@ public class SwingUtils {
 		 */
 		private static final long serialVersionUID = 3815181645609310902L;
 		private static final Paint fill = new Color(0xAAFFFFFF, true);
-		private static final ImageIcon shadowImage = new ImageIcon(SwingUtils.class.getResource("/res/dialogShadow.png"));
+		private static final ImageIcon shadowImage = new ImageIcon(
+				SwingUtils.class.getResource("/res/dialogShadow.png"));
 		private final JComponent cmp;
 		private final JLabel title = new JLabel();
 		private final JLabel info = new JLabel("Hit 'ESC' to close the dialog");
@@ -164,16 +177,20 @@ public class SwingUtils {
 			int w = getWidth();
 			int h = getHeight();
 
-			int shadowX = w/2 - (cmp.getWidth()+100)/2;
-			int shadowY = h/2 - (cmp.getHeight()+100)/2;
-			cmp.setLocation(w/2-cmp.getWidth()/2, h/2-cmp.getHeight()/2);
-			title.setLocation(w/2-cmp.getWidth()/2, h/2-cmp.getHeight()/2-title.getHeight());
-			info.setLocation(w/2+cmp.getWidth()/2-info.getWidth(), h/2-cmp.getHeight()/2-info.getHeight());
+			int shadowX = w / 2 - (cmp.getWidth() + 100) / 2;
+			int shadowY = h / 2 - (cmp.getHeight() + 100) / 2;
+			cmp.setLocation(w / 2 - cmp.getWidth() / 2, h / 2 - cmp.getHeight()
+					/ 2);
+			title.setLocation(w / 2 - cmp.getWidth() / 2,
+					h / 2 - cmp.getHeight() / 2 - title.getHeight());
+			info.setLocation(w / 2 + cmp.getWidth() / 2 - info.getWidth(), h
+					/ 2 - cmp.getHeight() / 2 - info.getHeight());
 
 			Graphics2D gg = (Graphics2D) g.create();
 			gg.setPaint(fill);
 			gg.fillRect(0, 0, w, h);
-			gg.drawImage(shadowImage.getImage(), shadowX, shadowY, cmp.getWidth()+100, cmp.getHeight()+100, null);
+			gg.drawImage(shadowImage.getImage(), shadowX, shadowY,
+					cmp.getWidth() + 100, cmp.getHeight() + 100, null);
 			gg.dispose();
 		}
 	}

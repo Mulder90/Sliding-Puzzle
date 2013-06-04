@@ -32,7 +32,7 @@ import com.sun.awt.AWTUtilities;
 			label.setForeground(Color.GREEN);
 			label.setFont(new Font(label.getFont().getFontName(), Font.BOLD, 12));
 
-			JPanel panel = new JPanel(new GridBagLayout());
+			JPanel panel = new JPanel();
 			panel.setBackground(Color.BLACK);
 			panel.setLayout(new GridBagLayout());
 			panel.add(label);

@@ -51,11 +51,13 @@ public class PuzzleGui {
 	private JTextField weightTextField;
 	private JButton createButton;
 	private JButton solveButton;
+	private JButton aboutButton;
 	private JComboBox<String> dimensionComboBox;
 	private JComboBox<String> algorithmComboBox;
 	private JComboBox<String> heuristicComboBox;
 	private DefaultComboBoxModel<String> eightAlgorithm;
 	private DefaultComboBoxModel<String> fifteenAlgorithm;
+	private AboutDialog dialog;
 
 	private int N;
 	private SearchAlgorithm algorithm;
@@ -83,13 +85,13 @@ public class PuzzleGui {
 
 	private void initialize() {
 		setFrameSlidingPuzzle(new JFrame());
-		getFrameSlidingPuzzle().setTitle("Sliding Puzzle");
-		getFrameSlidingPuzzle().setResizable(false);
-		getFrameSlidingPuzzle().setLocationRelativeTo(null);
-		getFrameSlidingPuzzle().setBounds(100, 100, 600, 600);
-		getFrameSlidingPuzzle().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getFrameSlidingPuzzle().getContentPane().setLayout(
-				new BoxLayout(getFrameSlidingPuzzle().getContentPane(),
+		frameSlidingPuzzle.setTitle("Sliding Puzzle");
+		frameSlidingPuzzle.setResizable(false);
+		frameSlidingPuzzle.setLocationRelativeTo(null);
+		frameSlidingPuzzle.setBounds(100, 100, 600, 600);
+		frameSlidingPuzzle.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frameSlidingPuzzle.getContentPane().setLayout(
+				new BoxLayout(frameSlidingPuzzle.getContentPane(),
 						BoxLayout.Y_AXIS));
 
 		panel = new JPanel();
@@ -102,7 +104,7 @@ public class PuzzleGui {
 		Font font = new Font("Verdana", Font.BOLD, 11);
 		textArea.setFont(font);
 		JScrollPane scrollPane = new JScrollPane(textArea);
-		getFrameSlidingPuzzle().getContentPane().add(scrollPane);
+		frameSlidingPuzzle.getContentPane().add(scrollPane);
 		panel.setLayout(new GridLayout(2, 1, 0, 0));
 
 		creationPanel = new JPanel();
@@ -149,13 +151,11 @@ public class PuzzleGui {
 		creationPanel.add(scramblesTextField);
 
 		createButton = new JButton("Create");
-		//final JLabel contact = new JLabel();
-		//contact.setText("<html>mail: <a href=\"\">lore.cinque@gmail.com</a></html>");
-		JButton aboutButton = new JButton("About");
+		aboutButton = new JButton("About");
 		creationPanel.add(createButton);
 		creationPanel.add(aboutButton);
 
-		final JLabel weightLabel = new JLabel("Weight:");
+		JLabel weightLabel = new JLabel("Weight:");
 		algorithmPanel.add(weightLabel);
 		weightTextField = new JTextField();
 		weightTextField.setText("2");
@@ -229,13 +229,8 @@ public class PuzzleGui {
 
 		aboutButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				AboutDialog dialog = new AboutDialog(getFrameSlidingPuzzle());
+				dialog = new AboutDialog(frameSlidingPuzzle);
 				SwingUtils.fadeIn(dialog);
-				/*JOptionPane.showMessageDialog(getFrameSlidingPuzzle(),
-						"Coded by Lorenzo Cinque\n" +
-						"University of Florence\n" +
-						"AI class 2012/2013\n" + 
-						contact.getText());*/
 			};
 		});
 
