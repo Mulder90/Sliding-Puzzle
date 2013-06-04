@@ -42,22 +42,6 @@ import com.lorenzocinque.puzzle.core.searchalgorithm.WeightedAStar;
 public class PuzzleGui {
 
 	private JFrame frameSlidingPuzzle;
-	private JPanel panel;
-	private JPanel creationPanel;
-	private JPanel algorithmPanel;
-	private JTextArea textArea;
-	private JTextField seedTextField;
-	private JTextField scramblesTextField;
-	private JTextField weightTextField;
-	private JButton createButton;
-	private JButton solveButton;
-	private JButton aboutButton;
-	private JComboBox<String> dimensionComboBox;
-	private JComboBox<String> algorithmComboBox;
-	private JComboBox<String> heuristicComboBox;
-	private DefaultComboBoxModel<String> eightAlgorithm;
-	private DefaultComboBoxModel<String> fifteenAlgorithm;
-	private AboutDialog dialog;
 
 	private int N;
 	private SearchAlgorithm algorithm;
@@ -94,11 +78,11 @@ public class PuzzleGui {
 				new BoxLayout(frameSlidingPuzzle.getContentPane(),
 						BoxLayout.Y_AXIS));
 
-		panel = new JPanel();
+		JPanel panel = new JPanel();
 		panel.setMaximumSize(new Dimension(32767, 50));
 		getFrameSlidingPuzzle().getContentPane().add(panel);
 
-		textArea = new JTextArea();
+		final JTextArea textArea = new JTextArea();
 		textArea.setEditable(false);
 		textArea.setBackground(Color.LIGHT_GRAY);
 		Font font = new Font("Verdana", Font.BOLD, 11);
@@ -107,63 +91,63 @@ public class PuzzleGui {
 		frameSlidingPuzzle.getContentPane().add(scrollPane);
 		panel.setLayout(new GridLayout(2, 1, 0, 0));
 
-		creationPanel = new JPanel();
+		JPanel creationPanel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) creationPanel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panel.add(creationPanel);
 
-		algorithmPanel = new JPanel();
+		JPanel algorithmPanel = new JPanel();
 		flowLayout = (FlowLayout) algorithmPanel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panel.add(algorithmPanel);
 
-		dimensionComboBox = new JComboBox<String>();
+		final JComboBox<String> dimensionComboBox = new JComboBox<String>();
 		creationPanel.add(dimensionComboBox);
 		dimensionComboBox.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "8 Puzzle", "15 Puzzle" }));
 
-		algorithmComboBox = new JComboBox<String>();
+		final JComboBox<String> algorithmComboBox = new JComboBox<String>();
 		algorithmPanel.add(algorithmComboBox);
-		eightAlgorithm = new DefaultComboBoxModel<String>(
+		final DefaultComboBoxModel<String> eightAlgorithm = new DefaultComboBoxModel<String>(
 				new String[] { "A*", "Weighted A*", "IDA*",
 						"Breadth First Search", "Iterative DLS" });
-		fifteenAlgorithm = new DefaultComboBoxModel<String>(new String[] {
+		final DefaultComboBoxModel<String> fifteenAlgorithm = new DefaultComboBoxModel<String>(new String[] {
 				"A*", "Weighted A*", "IDA*" });
 		algorithmComboBox.setModel(eightAlgorithm);
 
-		heuristicComboBox = new JComboBox<String>();
+		final JComboBox<String> heuristicComboBox = new JComboBox<String>();
 		algorithmPanel.add(heuristicComboBox);
 		heuristicComboBox.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "Manhattan", "Misplaced" }));
 
 		JLabel seedLabel = new JLabel("Seed:");
 		creationPanel.add(seedLabel);
-		seedTextField = new JTextField();
+		final JTextField seedTextField = new JTextField();
 		seedTextField.setText("1278");
 		seedTextField.setColumns(6);
 		creationPanel.add(seedTextField);
 
 		JLabel scramblesLabel = new JLabel("Scrambles:");
 		creationPanel.add(scramblesLabel);
-		scramblesTextField = new JTextField();
+		final JTextField scramblesTextField = new JTextField();
 		scramblesTextField.setText("60");
 		scramblesTextField.setColumns(4);
 		creationPanel.add(scramblesTextField);
 
-		createButton = new JButton("Create");
-		aboutButton = new JButton("About");
+		JButton createButton = new JButton("Create");
+		JButton aboutButton = new JButton("About");
 		creationPanel.add(createButton);
 		creationPanel.add(aboutButton);
 
 		JLabel weightLabel = new JLabel("Weight:");
 		algorithmPanel.add(weightLabel);
-		weightTextField = new JTextField();
+		final JTextField weightTextField = new JTextField();
 		weightTextField.setText("2");
 		weightTextField.setColumns(3);
 		algorithmPanel.add(weightTextField);
 		weightTextField.setEnabled(false);
 
-		solveButton = new JButton("Solve");
+		final JButton solveButton = new JButton("Solve");
 		solveButton.setEnabled(false);
 		algorithmPanel.add(solveButton);
 
@@ -229,7 +213,7 @@ public class PuzzleGui {
 
 		aboutButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				dialog = new AboutDialog(frameSlidingPuzzle);
+				AboutDialog dialog = new AboutDialog(frameSlidingPuzzle);
 				SwingUtils.fadeIn(dialog);
 			};
 		});
