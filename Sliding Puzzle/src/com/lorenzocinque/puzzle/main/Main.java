@@ -7,36 +7,8 @@ import com.lorenzocinque.puzzle.gui.PuzzleGui;
 public class Main {
 
 	public static void main(String[] args) {
-		/*Scanner sc = new Scanner(System.in);
-		System.out.println("Console or GUI?:\n1)Console\n2)GUI");
-		int type = sc.nextInt();
-		if (type == 1)
-			startConsole();
-		else
-			startGUI();
-		sc.close();*/
 		startGUI();
 	}
-
-	/*
-	private static void startConsole() {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("1)8-Puzzle\n2)15-Puzzle");
-		int type = sc.nextInt();
-		int N = (type == 1) ? 3 : 4;
-		Puzzle puzzle = new Puzzle(N, new PuzzleState(N), new PuzzleGoalTest(N));
-		Utils.makeRandomInitialState(puzzle, 1279, 60);
-		System.out.println("Initial state:\n" + puzzle.getInitialState());
-		Solver solver = new Solver(puzzle, new AStar(new ManhattanHeuristic(N)));
-		long startTime = System.nanoTime();
-		Solution solution = solver.solve();
-		long searchTime = System.nanoTime() - startTime;
-		System.out.println(solution);
-		System.out.println("Search finished with " + solver.toString()
-				+ " in approximately: " + (searchTime / 1000000000.0) + "s");
-		sc.close();
-	}
-	*/
 
 	private static void startGUI() {
 

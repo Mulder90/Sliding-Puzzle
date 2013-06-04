@@ -1,5 +1,6 @@
 package com.lorenzocinque.puzzle.gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -16,7 +17,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -79,12 +79,13 @@ public class PuzzleGui {
 
 	public void setFrameSlidingPuzzle(JFrame frameSlidingPuzzle) {
 		this.frameSlidingPuzzle = frameSlidingPuzzle;
-		frameSlidingPuzzle.setResizable(false);
 	}
 
 	private void initialize() {
 		setFrameSlidingPuzzle(new JFrame());
 		getFrameSlidingPuzzle().setTitle("Sliding Puzzle");
+		getFrameSlidingPuzzle().setResizable(false);
+		getFrameSlidingPuzzle().setLocationRelativeTo(null);
 		getFrameSlidingPuzzle().setBounds(100, 100, 600, 600);
 		getFrameSlidingPuzzle().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getFrameSlidingPuzzle().getContentPane().setLayout(
@@ -97,6 +98,7 @@ public class PuzzleGui {
 
 		textArea = new JTextArea();
 		textArea.setEditable(false);
+		textArea.setBackground(Color.LIGHT_GRAY);
 		Font font = new Font("Verdana", Font.BOLD, 11);
 		textArea.setFont(font);
 		JScrollPane scrollPane = new JScrollPane(textArea);
@@ -147,8 +149,8 @@ public class PuzzleGui {
 		creationPanel.add(scramblesTextField);
 
 		createButton = new JButton("Create");
-		final JLabel contact = new JLabel();
-		contact.setText("<html>mail: <a href=\"\">lore.cinque@gmail.com</a></html>");
+		//final JLabel contact = new JLabel();
+		//contact.setText("<html>mail: <a href=\"\">lore.cinque@gmail.com</a></html>");
 		JButton aboutButton = new JButton("About");
 		creationPanel.add(createButton);
 		creationPanel.add(aboutButton);
@@ -227,11 +229,13 @@ public class PuzzleGui {
 
 		aboutButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				JOptionPane.showMessageDialog(getFrameSlidingPuzzle(),
+				AboutDialog dialog = new AboutDialog(getFrameSlidingPuzzle());
+				SwingUtils.fadeIn(dialog);
+				/*JOptionPane.showMessageDialog(getFrameSlidingPuzzle(),
 						"Coded by Lorenzo Cinque\n" +
 						"University of Florence\n" +
 						"AI class 2012/2013\n" + 
-						contact.getText());
+						contact.getText());*/
 			};
 		});
 
