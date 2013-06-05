@@ -1,6 +1,8 @@
 package com.lorenzocinque.puzzle.main;
 
-import java.awt.EventQueue;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import com.lorenzocinque.puzzle.gui.PuzzleGui;
 
@@ -12,15 +14,19 @@ public class Main {
 
 	private static void startGUI() {
 
-		EventQueue.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					PuzzleGui window = new PuzzleGui();
-					window.getFrameSlidingPuzzle().setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+					UIManager.setLookAndFeel(UIManager
+							.getSystemLookAndFeelClassName());
+				} catch (ClassNotFoundException | InstantiationException
+						| IllegalAccessException
+						| UnsupportedLookAndFeelException ex) {
 				}
+				PuzzleGui window = new PuzzleGui();
+				window.getFrameSlidingPuzzle().setVisible(true);
+				window.getFrameSlidingPuzzle().setLocationRelativeTo(null);
 			}
 		});
 

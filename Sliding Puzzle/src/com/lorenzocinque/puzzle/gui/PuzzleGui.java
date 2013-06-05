@@ -71,7 +71,6 @@ public class PuzzleGui {
 		setFrameSlidingPuzzle(new JFrame());
 		frameSlidingPuzzle.setTitle("Sliding Puzzle");
 		frameSlidingPuzzle.setResizable(false);
-		frameSlidingPuzzle.setLocationRelativeTo(null);
 		frameSlidingPuzzle.setBounds(100, 100, 600, 600);
 		frameSlidingPuzzle.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frameSlidingPuzzle.getContentPane().setLayout(
@@ -150,6 +149,7 @@ public class PuzzleGui {
 		final JButton solveButton = new JButton("Solve");
 		solveButton.setEnabled(false);
 		algorithmPanel.add(solveButton);
+		
 
 		dimensionComboBox.addActionListener(new ActionListener() {
 
@@ -212,6 +212,8 @@ public class PuzzleGui {
 		});
 
 		aboutButton.addMouseListener(new MouseAdapter() {
+			
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				AboutDialog dialog = new AboutDialog(frameSlidingPuzzle);
 				SwingUtils.fadeIn(dialog);
