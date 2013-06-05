@@ -287,8 +287,9 @@ public class PuzzleGui {
 								+ (searchTime / 1000000000.0) + "s");
 					}
 				};
-
-				worker.execute();
+				
+				if(solveButton.isEnabled())
+					worker.execute();
 			}
 		});
 	}
