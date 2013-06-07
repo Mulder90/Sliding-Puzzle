@@ -6,6 +6,8 @@ import com.lorenzocinque.puzzle.core.heuristic.Heuristic;
 
 public class IDAStar implements SearchAlgorithm, InformedSearch {
 	
+	private Heuristic heuristic;
+	
 	public IDAStar(Heuristic heuristic) {
 		setHeuristic(heuristic);
 	}
@@ -17,14 +19,12 @@ public class IDAStar implements SearchAlgorithm, InformedSearch {
 
 	@Override
 	public void setHeuristic(Heuristic heuristic) {
-		// TODO Auto-generated method stub
-
+		this.heuristic = heuristic;
 	}
 
 	@Override
 	public Heuristic getHeuristic() {
-		// TODO Auto-generated method stub
-		return null;
+		return heuristic;
 	}
 
 }

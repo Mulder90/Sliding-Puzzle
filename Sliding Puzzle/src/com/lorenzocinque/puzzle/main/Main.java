@@ -27,6 +27,7 @@ public class Main {
 				PuzzleGui window = new PuzzleGui();
 				window.getFrameSlidingPuzzle().setVisible(true);
 				window.getFrameSlidingPuzzle().setLocationRelativeTo(null);
+				window.createDialog();
 			}
 		});
 

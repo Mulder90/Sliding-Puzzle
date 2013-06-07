@@ -28,7 +28,7 @@ import com.sun.awt.AWTUtilities;
 			setTitle("About");
 
 			JLabel label = new JLabel();
-			label.setText("<html>Coded by Lorenzo Cinque<br>University of Florence<br>" +
+			label.setText("<html>Coded by Lorenzo Cinque<br>University of Florence - Computer Science<br>" +
 					"AI class 2012/2013<br>" +
 					"lore.cinque@gmail.com</html>");
 			label.setForeground(Color.GREEN);

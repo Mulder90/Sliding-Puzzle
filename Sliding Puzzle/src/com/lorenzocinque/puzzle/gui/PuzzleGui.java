@@ -277,10 +277,8 @@ public class PuzzleGui {
 						try {
 							solveButton.setText("Solve");
 							textArea.append(get().toString() + "\n");
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						} catch (ExecutionException e) {
-							e.printStackTrace();
+						} catch (InterruptedException | ExecutionException ex) {
+							ex.printStackTrace();
 						}
 						textArea.append("Search finished with "
 								+ solver.toString() + " in approximately: "
@@ -292,5 +290,19 @@ public class PuzzleGui {
 					worker.execute();
 			}
 		});
+	}
+
+	public void createDialog() {
+		
+		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+			
+			@Override
+			protected Void doInBackground() throws Exception {
+				new AboutDialog(frameSlidingPuzzle);
+				return null;
+			}
+		};
+		
+		worker.execute();
 	}
 }
