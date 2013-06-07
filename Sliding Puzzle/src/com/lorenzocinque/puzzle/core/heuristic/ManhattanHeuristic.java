@@ -34,5 +34,10 @@ public class ManhattanHeuristic implements Heuristic {
 		}
 		return distance;
 	}
+	
+	@Override
+	public String toString() {
+		return "Manhattan";
+	}
 
 }

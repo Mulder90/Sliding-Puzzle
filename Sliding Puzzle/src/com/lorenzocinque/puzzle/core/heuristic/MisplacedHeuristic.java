@@ -23,4 +23,9 @@ public class MisplacedHeuristic implements Heuristic {
 		}
 		return misplacedCell;
 	}
+	
+	@Override
+	public String toString() {
+		return "Misplaced";
+	}
 }

@@ -17,5 +17,10 @@ public class IterativeDLS implements SearchAlgorithm {
 			depth++;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "Iterative DLS";
+	}
 
 }

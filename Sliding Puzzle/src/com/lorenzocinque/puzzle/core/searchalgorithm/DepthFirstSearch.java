@@ -24,5 +24,10 @@ public class DepthFirstSearch extends GraphSearch {
 			}
 		};
 	}
+	
+	@Override
+	public String toString() {
+		return "Depth First Search";
+	}
 
 }

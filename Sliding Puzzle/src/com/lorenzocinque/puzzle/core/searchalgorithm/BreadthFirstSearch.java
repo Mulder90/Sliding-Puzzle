@@ -13,5 +13,10 @@ public class BreadthFirstSearch extends GraphSearch {
 		//FIFO
 		return new LinkedList<>();		
 	}
+	
+	@Override
+	public String toString() {
+		return "Breadth First Search";
+	}
 
 }

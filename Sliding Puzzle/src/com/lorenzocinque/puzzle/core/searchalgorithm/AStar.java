@@ -43,5 +43,10 @@ public class AStar extends GraphSearch implements InformedSearch {
 			}
 		});
 	}
+	
+	@Override
+	public String toString() {
+		return "A*";
+	}
 
 }

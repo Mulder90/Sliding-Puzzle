@@ -50,5 +50,10 @@ public class DepthLimitedSearch implements SearchAlgorithm {
 	public int getNodeExpanded() {
 		return nodeExpanded;
 	}
+	
+	@Override
+	public String toString() {
+		return "Depth Limited Search";
+	}
 
 }

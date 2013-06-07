@@ -281,7 +281,9 @@ public class PuzzleGui {
 							ex.printStackTrace();
 						}
 						textArea.append("Search finished with "
-								+ solver.toString() + " in approximately: "
+								+ algorithm.toString() + " algorithms " 
+								+ ((heuristicComboBox.isEnabled()) ? ("with " + heuristic.toString() + " heuristics\n") : "") 
+								+ "in approximately: "
 								+ (searchTime / 1000000000.0) + "s");
 					}
 				};

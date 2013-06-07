@@ -16,5 +16,10 @@ public class WeightedAStar extends AStar {
 	public void setW(int w) {
 		this.w = w;
 	}
+	
+	@Override
+	public String toString() {
+		return "Weighted A*";
+	}
 
 }
