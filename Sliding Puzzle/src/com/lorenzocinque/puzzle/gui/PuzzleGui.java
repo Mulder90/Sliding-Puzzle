@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -202,12 +203,20 @@ public class PuzzleGui {
 				textArea.setText("");
 				puzzle = new Puzzle(N, new PuzzleState(N),
 						new PuzzleGoalTest(N));
-				int seed = Integer.parseInt(seedTextField.getText());
-				int scrambles = Integer.parseInt(scramblesTextField.getText());
-				Utils.makeRandomInitialState(puzzle, seed, scrambles);
-				textArea.append("\nInitial state:\n" + puzzle.getInitialState()
+				if(!seedTextField.getText().isEmpty()&& !scramblesTextField.getText().isEmpty()) {
+					int seed = Integer.parseInt(seedTextField.getText());
+					int scrambles = Integer.parseInt(scramblesTextField.getText());
+					Utils.makeRandomInitialState(puzzle, seed, scrambles);
+					textArea.append("\nInitial state:\n" + puzzle.getInitialState()
 						+ "\n");
-				solveButton.setEnabled(true);
+					solveButton.setEnabled(true);
+				}
+				else if(seedTextField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Insert seed value", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				else if(scramblesTextField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Insert scrambles value", "Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 
