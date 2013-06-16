@@ -9,11 +9,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -48,6 +52,9 @@ public class PuzzleGui {
 	private SearchAlgorithm algorithm;
 	private Heuristic heuristic;
 	private Puzzle puzzle;
+	
+	private int seed;
+	private int scrambles;
 
 	public PuzzleGui() {
 		initializeDefaultValue();
@@ -64,23 +71,19 @@ public class PuzzleGui {
 		return frameSlidingPuzzle;
 	}
 
-	public void setFrameSlidingPuzzle(JFrame frameSlidingPuzzle) {
-		this.frameSlidingPuzzle = frameSlidingPuzzle;
-	}
-
 	private void initialize() {
-		setFrameSlidingPuzzle(new JFrame());
+		frameSlidingPuzzle = new JFrame();
 		frameSlidingPuzzle.setTitle("Sliding Puzzle");
 		frameSlidingPuzzle.setResizable(false);
-		frameSlidingPuzzle.setBounds(100, 100, 600, 600);
-		frameSlidingPuzzle.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frameSlidingPuzzle.setBounds(0, 0, 600, 600);
+		frameSlidingPuzzle.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frameSlidingPuzzle.getContentPane().setLayout(
 				new BoxLayout(frameSlidingPuzzle.getContentPane(),
 						BoxLayout.Y_AXIS));
 
 		JPanel panel = new JPanel();
 		panel.setMaximumSize(new Dimension(32767, 50));
-		getFrameSlidingPuzzle().getContentPane().add(panel);
+		frameSlidingPuzzle.getContentPane().add(panel);
 
 		final JTextArea textArea = new JTextArea();
 		textArea.setEditable(false);
@@ -100,6 +103,9 @@ public class PuzzleGui {
 		flowLayout = (FlowLayout) algorithmPanel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		panel.add(algorithmPanel);
+		
+		final JCheckBox logBox = new JCheckBox("Generate log", false);
+		creationPanel.add(logBox);
 
 		final JComboBox<String> dimensionComboBox = new JComboBox<String>();
 		creationPanel.add(dimensionComboBox);
@@ -111,8 +117,8 @@ public class PuzzleGui {
 		final DefaultComboBoxModel<String> eightAlgorithm = new DefaultComboBoxModel<String>(
 				new String[] { "A*", "Weighted A*", "IDA*",
 						"Breadth First Search", "Iterative DLS" });
-		final DefaultComboBoxModel<String> fifteenAlgorithm = new DefaultComboBoxModel<String>(new String[] {
-				"A*", "Weighted A*", "IDA*" });
+		final DefaultComboBoxModel<String> fifteenAlgorithm = new DefaultComboBoxModel<String>(
+				new String[] { "A*", "Weighted A*", "IDA*" });
 		algorithmComboBox.setModel(eightAlgorithm);
 
 		final JComboBox<String> heuristicComboBox = new JComboBox<String>();
@@ -150,9 +156,22 @@ public class PuzzleGui {
 		final JButton solveButton = new JButton("Solve");
 		solveButton.setEnabled(false);
 		algorithmPanel.add(solveButton);
-		
 
 		dimensionComboBox.addActionListener(new ActionListener() {
+			
+			private void update() {
+				if (algorithmComboBox.getSelectedItem().toString()
+						.equals("Breadth First Search")
+						|| algorithmComboBox.getSelectedItem().toString()
+								.equals("Iterative DLS"))
+					heuristicComboBox.setEnabled(false);
+				if (algorithmComboBox.getSelectedItem().toString()
+						.equals("Weighted A*")) {
+					weightTextField.setEnabled(true);
+				} else {
+					weightTextField.setEnabled(false);
+				}
+			}
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -160,21 +179,11 @@ public class PuzzleGui {
 				N = (i == 0) ? 3 : 4;
 				if (N == 3) {
 					algorithmComboBox.setModel(eightAlgorithm);
-					if (algorithmComboBox.getSelectedItem().toString()
-							.equals("Breadth First Search")
-							|| algorithmComboBox.getSelectedItem().toString()
-									.equals("Iterative DLS"))
-						heuristicComboBox.setEnabled(false);
 				} else {
 					heuristicComboBox.setEnabled(true);
 					algorithmComboBox.setModel(fifteenAlgorithm);
 				}
-				if (algorithmComboBox.getSelectedItem().toString()
-						.equals("Weighted A*")) {
-					weightTextField.setEnabled(true);
-				} else {
-					weightTextField.setEnabled(false);
-				}
+				update();
 			}
 		});
 
@@ -203,25 +212,28 @@ public class PuzzleGui {
 				textArea.setText("");
 				puzzle = new Puzzle(N, new PuzzleState(N),
 						new PuzzleGoalTest(N));
-				if(!seedTextField.getText().isEmpty()&& !scramblesTextField.getText().isEmpty()) {
-					int seed = Integer.parseInt(seedTextField.getText());
-					int scrambles = Integer.parseInt(scramblesTextField.getText());
+				if (!seedTextField.getText().isEmpty()
+						&& !scramblesTextField.getText().isEmpty()) {
+					seed = Integer.parseInt(seedTextField.getText());
+					scrambles = Integer.parseInt(scramblesTextField
+							.getText());
 					Utils.makeRandomInitialState(puzzle, seed, scrambles);
-					textArea.append("\nInitial state:\n" + puzzle.getInitialState()
-						+ "\n");
+					textArea.append("\nInitial state:\n"
+							+ puzzle.getInitialState() + "\n");
 					solveButton.setEnabled(true);
-				}
-				else if(seedTextField.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Insert seed value", "Error", JOptionPane.ERROR_MESSAGE);
-				}
-				else if(scramblesTextField.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Insert scrambles value", "Error", JOptionPane.ERROR_MESSAGE);
+				} else if (seedTextField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Insert seed value",
+							"Error", JOptionPane.ERROR_MESSAGE);
+				} else if (scramblesTextField.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(null,
+							"Insert scrambles value", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 
 		aboutButton.addMouseListener(new MouseAdapter() {
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				AboutDialog dialog = new AboutDialog(frameSlidingPuzzle);
@@ -290,30 +302,71 @@ public class PuzzleGui {
 							ex.printStackTrace();
 						}
 						textArea.append("Search finished with "
-								+ algorithm.toString() + " algorithms " 
-								+ ((heuristicComboBox.isEnabled()) ? ("with " + heuristic.toString() + " heuristics\n") : "") 
-								+ "in approximately: "
+								+ algorithm.toString()
+								+ " algorithms "
+								+ ((heuristicComboBox.isEnabled()) ? ("with "
+										+ heuristic.toString() + " heuristics\n")
+										: "") + "in approximately: "
 								+ (searchTime / 1000000000.0) + "s");
+						if (logBox.isSelected()) {
+							try {
+								createLogFile(get());
+							} catch (InterruptedException | ExecutionException e) {
+								e.printStackTrace();
+							}
+						}
 					}
 				};
-				
-				if(solveButton.isEnabled())
+
+				if (solveButton.isEnabled())
 					worker.execute();
 			}
 		});
 	}
 
+	// hack for fast loading
 	public void createDialog() {
-		
+
 		SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-			
+
 			@Override
 			protected Void doInBackground() throws Exception {
 				new AboutDialog(frameSlidingPuzzle);
 				return null;
 			}
 		};
-		
+
 		worker.execute();
+	}
+
+	private void createLogFile(Solution solution) {
+		FileWriter writer;
+		File logFile = new File((N * N - 1) + "Puzzle"
+				+ algorithm.getClass().getSimpleName() + "Log.txt");
+		if (!logFile.exists())
+			try {
+				writer = new FileWriter((N * N - 1) + "Puzzle"
+						+ algorithm.getClass().getSimpleName() + "Log.txt",
+						true);
+				writer.append("#" + (N * N - 1) + " Puzzle\n"
+						+ "#seed;scrambles;moves;nodes\n");
+				writer.append(seed + ";" + scrambles + ";" + solution.getSolutionPath().size() + ";"
+						+ solution.getNodeExplored() + "\n");
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		else {
+			try {
+				writer = new FileWriter((N * N - 1) + "Puzzle"
+						+ algorithm.getClass().getSimpleName() + "Log.txt",
+						true);
+				writer.append(seed + ";" + scrambles + ";" + solution.getSolutionPath().size() + ";"
+						+ solution.getNodeExplored() + "\n");
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
