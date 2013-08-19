@@ -11,6 +11,7 @@ Solves 8 and 15 puzzle with:
 - Weighted A* 
 - BFS (Only 8 puzzle) 
 - Iterative DLS (Only 8 puzzle)  
+
 and heuristics:
 - Manhattan
 - Misplaced
