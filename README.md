@@ -1,10 +1,10 @@
 ############################################
-Sliding-Puzzle
-Coded by Lorenzo Cinque aka Mulder90
+Sliding Puzzle  
+Coded by Lorenzo Cinque aka Mulder90  
+lore.cinque@gmail.com
 ############################################
 
-Final project for AI class (Prof. Frasconi Paolo) at the University of Florence.
-
+Final project for AI class (Prof. Frasconi Paolo) at the University of Florence.  
 Solves 8 and 15 puzzle with:
 - A*
 - IDA* 
