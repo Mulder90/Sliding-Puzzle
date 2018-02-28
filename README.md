@@ -1,8 +1,4 @@
-############################################
-### Sliding Puzzle  
-Coded by Lorenzo Cinque aka Mulder90  
-lore.cinque@gmail.com
-############################################
+### Sliding Puzzle
 
 Final project for **AI** class (Prof. Frasconi Paolo) at the University of Florence.  
 Solves 8 and 15 puzzle with:
@@ -20,11 +16,11 @@ and heuristics:
 
 ---
 
-[Link compiled jar (requires Java 7)](https://dl.dropboxusercontent.com/u/1994958/Sliding%20Puzzle.jar)
+[Link compiled jar (requires Java 7)](https://www.dropbox.com/s/8vdgavvzj8iexsw/Sliding%20Puzzle.jar?dl=1)
 
 ---
 
-![ScreenShot](https://dl.dropboxusercontent.com/u/1994958/sliding%20puzzle%20IA.png)
+![ScreenShot](https://www.dropbox.com/s/r1brs12osg7j75o/sliding%20puzzle%20IA.png?dl=1)
 
 ---
 
