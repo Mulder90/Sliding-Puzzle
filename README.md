@@ -16,12 +16,11 @@ and heuristics:
 
 ---
 
-[Link compiled jar (requires Java 7)](https://www.dropbox.com/s/8vdgavvzj8iexsw/Sliding%20Puzzle.jar?dl=1)
+[Compiled jar (requires Java 7)](https://www.dropbox.com/s/8vdgavvzj8iexsw/Sliding%20Puzzle.jar?dl=1)
 
 ---
 
-![ScreenShot](https://www.dropbox.com/s/r1brs12osg7j75o/sliding%20puzzle%20IA.png?dl=1)
-
+![ScreenShot](https://image.ibb.co/g9NX0x/sliding_puzzle_IA_preview.png)
 ---
 
 **TODO:**
